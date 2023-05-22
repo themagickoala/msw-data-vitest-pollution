@@ -1,16 +1,16 @@
 import type { NextPage } from 'next'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   const client = useQueryClient();
   const { data } = useQuery(['users'], async () => {
-    const res = await fetch('http://localhost/api/hello');
+    const res = await fetch('http://localhost:3000/api/hello');
     return await res.json();
   });
 
   const addUser = useMutation(async () => {
-    return await fetch('http://localhost/api/user', { method: 'POST', body: JSON.stringify({ name: 'test' }) });
+    return await fetch('http://localhost:3000/api/user', { method: 'POST', body: JSON.stringify({ name: 'test' }) });
   }, {
     onSuccess: () => {
       client.invalidateQueries(['users']);
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   });
 
   const updateUser = useMutation(async () => {
-    return await fetch('http://localhost/api/user/1', { method: 'PUT', body: JSON.stringify({ name: 'test' }) });
+    return await fetch('http://localhost:3000/api/user/1', { method: 'PUT', body: JSON.stringify({ name: 'test' }) });
   }, {
     onSuccess: () => {
       client.invalidateQueries(['users']);
