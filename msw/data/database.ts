@@ -1,20 +1,14 @@
 import { drop, factory, oneOf, primaryKey } from '@mswjs/data';
-import { getId } from './utils';
+import { uuid } from 'uuidv4';
 
 export const dbCreator = () =>
   factory({
     user: {
       name: String,
-      id: primaryKey(getId),
+      id: primaryKey(uuid),
     },
     news: {
       user: oneOf('user'),
-      id: primaryKey(getId),
+      id: primaryKey(uuid),
     }
   });
-
-export const db = dbCreator();
-
-export const resetDb = () => {
-  drop(db);
-};

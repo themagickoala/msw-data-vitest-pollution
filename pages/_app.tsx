@@ -7,6 +7,7 @@ import { isNodeProcess } from 'is-node-process';
 import { SetupServer } from 'msw/lib/node';
 import { SetupWorker } from 'msw';
 import { seed } from '../msw/data';
+import { dbCreator } from '../msw/data/database';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const clientRef = useRef<QueryClient>();
@@ -21,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     (server as SetupWorker).start();
   }
 
-  seed();
+  seed(dbCreator());
   
   return (
     <QueryClientProvider client={clientRef.current}>

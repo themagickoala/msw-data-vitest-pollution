@@ -1,7 +1,9 @@
+import { drop } from "@mswjs/data";
 import { getCurrentSuite, getCurrentTest } from "@vitest/runner";
-import { db } from "./database";
 
-export const seed = () => {
+export const seed = (db: any) => {
+  drop(db);
+  const userCountShouldBeZero = db.user.count();
   const user = db.user.create({ name: 'User 1'});
-  console.log({ test: getCurrentTest()?.name, suite: getCurrentSuite()?.name, id: user.id });
+  // console.log({ test: getCurrentTest()?.name, id: user.id, userCountShouldBeZero });
 };

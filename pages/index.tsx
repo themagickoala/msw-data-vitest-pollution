@@ -17,8 +17,9 @@ const Home: NextPage = () => {
     },
   });
 
-  const updateUser = useMutation(async () => {
-    return await fetch('http://localhost:3000/api/user/1', { method: 'PUT', body: JSON.stringify({ name: 'test' }) });
+  const updateUser = useMutation<Response, unknown, { id: number }>(async ({ id }) => {
+    // console.log({ id });
+    return await fetch(`http://localhost:3000/api/user/${id}`, { method: 'PUT', body: JSON.stringify({ name: 'test' }) });
   }, {
     onSuccess: () => {
       client.invalidateQueries(['users']);
@@ -35,8 +36,8 @@ const Home: NextPage = () => {
       }}>
         Add user
       </button>
-      <button onClick={() => {
-        updateUser.mutate();
+      <button disabled={!data} onClick={() => {
+        updateUser.mutate({ id: data.users[0].id });
       }}>
         Update user
       </button>
